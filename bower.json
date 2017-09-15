@@ -1,0 +1,21 @@
+{
+    "name": "proj1",
+  "homepage": "https://github.com/mirgor/proj1",
+  "authors": [
+    "Miroslav Botsula <botsula@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "v4.0.0-beta",
+    "font-awesome": "fontawesome#^4.7.0"
+  }
+}

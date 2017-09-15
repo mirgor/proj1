@@ -1,30 +1,39 @@
 var gulp = require('gulp'),
-    sass = require('gulp-sass');
-var server = require('gulp-server-livereload');
+    sass = require('gulp-sass'),
+    git = require('gulp-git'),
+    browserSync  = require('browser-sync');
+//var server = require('gulp-server-livereload');
 
-gulp.task('webserver', function () {
-    gulp.src('./')
-        .pipe(server({
-            livereload: {
-                enable: true,
-                filter: function (filePath, cb) {
-                    cb(!(/node_modules/.test(filePath)));
-                },
-              },
-            defaultFile: 'app/index.html',
-            fallback: 'app/index.html',
-            open: true
-        }));
+gulp.task('browser-sync', function() { // Создаем таск browser-sync
+    browserSync({ // Выполняем browserSync
+        server: { // Определяем параметры сервера
+            baseDir: 'app' // Директория для сервера - app
+        },
+        notify: false // Отключаем уведомления
+    });
 });
 
+
+gulp.task('add', function() { // Инициализация измененных файлов
+    console.log('git adding...');
+    return gulp.src('app/')
+        .pipe(git.add());
+});
+
+gulp.task('gitsend', function() {
+    runSequence('add');
+});
+
+
+
 gulp.task('sass', function(){
-return gulp.src('sass/*.sass')
+return gulp.src('app/sass/*.sass')
     .pipe(sass())
     .pipe(gulp.dest('app/css/'))
 });
 
 gulp.task('watch', function(){
-    gulp.watch('sass/*.sass', ['sass']);
+    gulp.watch('app/sass/*.sass', ['sass']);
 });
 
-gulp.task('default', ['watch']);
+gulp.task('default', ['watch', 'browser-sync']);
